@@ -1,0 +1,200 @@
+{
+  "info": {
+    "_postman_id": "6961a423-9321-4e3b-aa9a-5620008eb5a7",
+    "name": "Paylocity Benefits API Tests",
+    "description": "Colección de pruebas para validar API de empleados en AWS",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "50664540",
+    "_collection_link": "https://go.postman.co/collection/50664540-6961a423-9321-4e3b-aa9a-5620008eb5a7?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Crear empleado",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => { pm.response.to.have.status(200); });",
+              "const jsonData = pm.response.json();",
+              "pm.test(\"Empleado creado correctamente\", () => {",
+              "  pm.expect(jsonData).to.have.property(\"id\");",
+              "  pm.expect(jsonData.firstName).to.eql(\"John\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": \"{{employeeId}}\",\n  \"username\": \"jdoe\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"dependants\": 2,\n  \"salary\": 2000\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/Employees",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "Employees"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Listar empleados",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => { pm.response.to.have.status(200); });",
+              "const jsonData = pm.response.json();",
+              "pm.test(\"Lista de empleados no está vacía\", () => {",
+              "  pm.expect(jsonData.length).to.be.above(0);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/Employees",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "Employees"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Editar empleado",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => { pm.response.to.have.status(200); });",
+              "const jsonData = pm.response.json();",
+              "pm.test(\"Empleado editado correctamente\", () => {",
+              "  pm.expect(jsonData.firstName).to.eql(\"Johnny\");",
+              "  pm.expect(jsonData.dependants).to.eql(3);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": \"{{employeeId}}\",\n  \"username\": \"jdoe\",\n  \"firstName\": \"Johnny\",\n  \"lastName\": \"Doe\",\n  \"dependants\": 3,\n  \"salary\": 2000\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/Employees",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "Employees"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Obtener empleado por ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => { pm.response.to.have.status(200); });",
+              "const jsonData = pm.response.json();",
+              "pm.test(\"Empleado encontrado por ID\", () => {",
+              "  pm.expect(jsonData).to.have.property(\"id\");",
+              "  pm.expect(jsonData.username).to.eql(\"jdoe\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/Employees/{{employeeId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "Employees",
+            "{{employeeId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Eliminar empleado",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => { pm.response.to.have.status(200); });",
+              "const jsonData = pm.response.json();",
+              "pm.test(\"Empleado eliminado correctamente\", () => {",
+              "  pm.expect(jsonData).to.have.property(\"id\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/Employees/{{employeeId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "Employees",
+            "{{employeeId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
